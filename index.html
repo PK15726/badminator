@@ -183,7 +183,7 @@ body{font-family:'Barlow',sans-serif;background:var(--navy);color:var(--text);mi
   <div class="tab" onclick="goTab('standings',this)">🏆 Standings</div>
   <div class="tab" onclick="goTab('knockout',this)">⚡ Knockout</div>
   <div class="tab" onclick="goTab('groups',this)">👥 Groups</div>
-  <div class="tab" onclick="goTab('setup',this)">⚙️ Setup</div>
+ <div class="tab admin-only" id="setupTab" style="display:none" onclick="goTab('setup',this)">
 </div>
 
 <div class="page active" id="page-schedule">
@@ -242,13 +242,13 @@ body{font-family:'Barlow',sans-serif;background:var(--navy);color:var(--text);mi
     <div class="cmsg" id="cfgMsg"></div>
   </div>
 
-  <div class="guide" style="border-color:#3b82f6;">
+ <!-- <div class="guide" style="border-color:#3b82f6;">
     <h3>📤 Share with players</h3>
     <div class="step"><span class="snum">1</span><span>Go to <a href="https://app.netlify.com/drop" target="_blank">app.netlify.com/drop</a> — drag & drop this HTML file</span></div>
     <div class="step"><span class="snum">2</span><span>Get a free URL like <code>happy-name-123.netlify.app</code></span></div>
     <div class="step"><span class="snum">3</span><span>All users on that URL see live scores — <strong>no login needed to view</strong></span></div>
     <div class="step"><span class="snum">4</span><span>Only you can enter scores — click <strong>Admin Login</strong> with your password</span></div>
-  </div>
+  </div> -->
 </div>
 
 <div class="toast" id="toast"></div>
@@ -312,6 +312,7 @@ const KO=[
   {id:"qf4",t:"18:50–19:10",stage:"QF",   c:"court 11",t1:"Red 4th",    t2:"Blue 1st"},
   {id:"sf1",t:"19:10–19:30",stage:"SF",   c:"court 7",t1:"Winner QF1", t2:"Winner QF2"},
   {id:"sf2",t:"19:10–19:30",stage:"SF",   c:"court 8",t1:"Winner QF3", t2:"Winner QF4"},
+  {id:"3rd",t:"19:30–19:45",stage:"3rd Place",c:"court 8",t1:"Loser SF1", t2:"Loser SF2"},
   {id:"fin",t:"19:30–19:45",stage:"Final",c:"court 7",t1:"Winner SF1", t2:"Winner SF2"},
 ];
 
@@ -401,6 +402,7 @@ function loginOk(){
   admin=true; closeModal();
   const b=document.getElementById('adminBtn');
   b.textContent='🔓 Admin ON — Logout'; b.classList.add('on');
+  document.getElementById('setupTab').style.display='block';
   toast('Admin mode on ✓');
   renderAll();
 }
@@ -409,6 +411,12 @@ function doLogout(){
   admin=false;
   const b=document.getElementById('adminBtn');
   b.textContent='🔐 Admin Login'; b.classList.remove('on');
+   // Hide setup tab and redirect away if currently on setup
+  document.getElementById('setupTab').style.display='none';
+  const setupPage=document.getElementById('page-setup');
+  if(setupPage.classList.contains('active')){
+    goTab('schedule', document.querySelector('.tab'));
+  }
   toast('Logged out');
   startPoll();
   renderAll();
@@ -589,6 +597,10 @@ function renderAll(){ renderSched(); renderScoreboard(); renderStd(); renderKO()
 
 // ── TAB ───────────────────────────────────────────────────────────────
 function goTab(id, el){
+  if(id==='setup' && !admin){
+    toast('Admin access required for Setup',true);
+    return;
+  }
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
