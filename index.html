@@ -183,7 +183,7 @@ body{font-family:'Barlow',sans-serif;background:var(--navy);color:var(--text);mi
   <div class="tab" onclick="goTab('standings',this)">🏆 Standings</div>
   <div class="tab" onclick="goTab('knockout',this)">⚡ Knockout</div>
   <div class="tab" onclick="goTab('groups',this)">👥 Groups</div>
- <div class="tab admin-only" id="setupTab" style="display:none" onclick="goTab('setup',this)">
+  <div class="tab admin-only" id="setupTab" style="display:none" onclick="goTab('setup',this)">⚙️ Setup</div>
 </div>
 
 <div class="page active" id="page-schedule">
@@ -213,15 +213,15 @@ body{font-family:'Barlow',sans-serif;background:var(--navy);color:var(--text);mi
 <div class="page" id="page-groups">
   <div class="sec-title">👥 Team Groups</div>
   <div class="grp-grid">
-    <div class="card"><div class="card-head red">🔴 Red Group — Courts 7 & 8</div><div id="redList"></div></div>
-    <div class="card"><div class="card-head blue">🔵 Blue Group — Courts 10 & 11</div><div id="blueList"></div></div>
+    <div class="card"><div class="card-head red">🔴 Red Group — Courts 1 & 2</div><div id="redList"></div></div>
+    <div class="card"><div class="card-head blue">🔵 Blue Group — Courts 3 & 4</div><div id="blueList"></div></div>
   </div>
 </div>
 
 <div class="page" id="page-setup">
   <div class="sec-title">⚙️ Setup</div>
 
-<!--  <div class="guide">
+  <div class="guide">
     <h3>🔥 Firebase Setup (Free — takes 3 minutes)</h3>
     <div class="step"><span class="snum">1</span><span>Go to <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a> → <strong>Add project</strong> → name it (e.g. <code>badminator</code>) → Continue → disable Analytics → Create</span></div>
     <div class="step"><span class="snum">2</span><span>In your project → click <strong>Realtime Database</strong> (left sidebar) → <strong>Create Database</strong> → choose any location → select <strong>"Start in test mode"</strong> → Enable</span></div>
@@ -229,7 +229,7 @@ body{font-family:'Barlow',sans-serif;background:var(--navy);color:var(--text);mi
     <div class="step"><span class="snum">4</span><span>Paste the URL below, set your admin password, click <strong>Save & Test</strong></span></div>
     <div class="step"><span class="snum">5</span><span>Host the HTML file on <a href="https://app.netlify.com/drop" target="_blank">Netlify Drop</a> → share the URL with everyone. Scores sync instantly for all viewers! 🚀</span></div>
   </div>
--->
+
   <div class="cform">
     <label class="clabel">Firebase Realtime Database URL</label>
     <input class="cinput" id="cfgUrl" placeholder="https://your-project-default-rtdb.firebaseio.com"/>
@@ -242,13 +242,13 @@ body{font-family:'Barlow',sans-serif;background:var(--navy);color:var(--text);mi
     <div class="cmsg" id="cfgMsg"></div>
   </div>
 
- <!-- <div class="guide" style="border-color:#3b82f6;">
+  <div class="guide" style="border-color:#3b82f6;">
     <h3>📤 Share with players</h3>
     <div class="step"><span class="snum">1</span><span>Go to <a href="https://app.netlify.com/drop" target="_blank">app.netlify.com/drop</a> — drag & drop this HTML file</span></div>
     <div class="step"><span class="snum">2</span><span>Get a free URL like <code>happy-name-123.netlify.app</code></span></div>
     <div class="step"><span class="snum">3</span><span>All users on that URL see live scores — <strong>no login needed to view</strong></span></div>
     <div class="step"><span class="snum">4</span><span>Only you can enter scores — click <strong>Admin Login</strong> with your password</span></div>
-  </div> -->
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -259,50 +259,49 @@ const RED  = ["KP – Manu","Srikanth – Tom","Magesh – JP","Aravind – Mana
 const BLUE = ["Jaawid – Cliff","Adhil – Justin","Rehan – Thevindu","Janaki – Srini","Kaleem – Simar","Poorna – Ram","Ragul – Cibi"];
 
 const RR=[
-  {id:"m1",  t:"17:00–17:10",s:"S1", c:"Court 7",g:"Red", t1:"Shyam – Ananth",         t2:"Prajoth – Lakpriya"},
-  {id:"m2",  t:"17:00–17:10",s:"S1", c:"Court 8",g:"Red", t1:"Magesh – JP",        t2:"Aravind – Manav"},
+  {id:"m1",  t:"17:00–17:10",s:"S1", c:"court 7",g:"Red",t1:"Shyam – Ananth",     t2:"Prajoth – Lakpriya"},
+  {id:"m2",  t:"17:00–17:10",s:"S1", c:"court 8",g:"Red", t1:"Magesh – JP",        t2:"Aravind – Manav"},
   {id:"m3",  t:"17:00–17:10",s:"S1", c:"court 10",g:"Blue",t1:"Jaawid – Cliff",     t2:"Adhil – Justin"},
   {id:"m4",  t:"17:00–17:10",s:"S1", c:"court 11",g:"Blue",t1:"Rehan – Thevindu",   t2:"Janaki – Srini"},
-  {id:"m5",  t:"17:10–17:20",s:"S2", c:"court 7",g:"Red", t1:"KP – Manu",     t2:"Srikanth – Tom"},
-  {id:"m6",  t:"17:10–17:20",s:"S2", c:"court 8",g:"Red", t1:"Urop – Shan",        t2:"KP – Manu"},
+  {id:"m5",  t:"17:10–17:20",s:"S2", c:"court 7",g:"Red", t1:"KP – Manu",         t2:"Srikanth – Tom"} ,
+  {id:"m6",  t:"17:10–17:20",s:"S2", c:"court 8",g:"Red", t1:"Urop – Shan",        t2:"Shyam – Ananth"},
   {id:"m7",  t:"17:10–17:20",s:"S2", c:"court 10",g:"Blue",t1:"Kaleem – Simar",     t2:"Poorna – Ram"},
   {id:"m8",  t:"17:10–17:20",s:"S2", c:"court 11",g:"Blue",t1:"Ragul – Cibi",       t2:"Jaawid – Cliff"},
-  {id:"m9",  t:"17:20–17:30",s:"S3", c:"court 7",g:"Red", t1:"Srikanth – Tom",     t2:"Magesh – JP"},
-  {id:"m10", t:"17:20–17:30",s:"S3", c:"court 8",g:"Red", t1:"Aravind – Manav",    t2:"Shyam – Ananth"},
+  {id:"m9",  t:"17:20–17:30",s:"S3", c:"court 7",g:"Red", t1:"Prajoth – Lakpriya",     t2:"Magesh – JP"},
+  {id:"m10", t:"17:20–17:30",s:"S3", c:"court 8",g:"Red", t1:"Aravind – Manav",    t2:"KP – Manu"},
   {id:"m11", t:"17:20–17:30",s:"S3", c:"court 10",g:"Blue",t1:"Adhil – Justin",     t2:"Rehan – Thevindu"},
-  {id:"m12", t:"17:20–17:30",s:"S3", c:"court 11",g:"Blue",t1:"Janaki – Srini",     t2:"Kaleem – Simar"},
-  {id:"m13", t:"17:30–17:40",s:"S4", c:"court 7",g:"Red", t1:"Prajoth – Lakpriya", t2:"Urop – Shan"},
-  {id:"m14", t:"17:30–17:40",s:"S4", c:"court 8",g:"Red", t1:"KP – Manu",          t2:"Magesh – JP"},
-  {id:"m15", t:"17:30–17:40",s:"S4", c:"court 10",g:"Blue",t1:"Poorna – Ram",       t2:"Ragul – Cibi"},
+  {id:"m12", t:"17:20–17:30",s:"S3", c:"court 11",g:"Blue",t1:"Janaki – Srini",     t2:"Poorna – Ram"},
+  {id:"m13", t:"17:30–17:40",s:"S4", c:"court 7",g:"Red", t1:"Srikanth – Tom", t2:"Urop – Shan"},
+  {id:"m14", t:"17:30–17:40",s:"S4", c:"court 8",g:"Red", t1:"Shyam – Anant",          t2:"Magesh – JP"},
+  {id:"m15", t:"17:30–17:40",s:"S4", c:"court 10",g:"Blue",t1:"Kaleem – Simar",       t2:"Ragul – Cibi"},
   {id:"m16", t:"17:30–17:40",s:"S4", c:"court 11",g:"Blue",t1:"Jaawid – Cliff",     t2:"Rehan – Thevindu"},
-  {id:"m17", t:"17:40–17:50",s:"S5", c:"court 7",g:"Red", t1:"Srikanth – Tom",     t2:"Aravind – Manav"},
-  {id:"m18", t:"17:40–17:50",s:"S5", c:"court 8",g:"Red", t1:"Shyam – Ananth",     t2:"Urop – Shan"},
+  {id:"m17", t:"17:40–17:50",s:"S5", c:"court 7",g:"Red", t1:"Prajoth – Lakpriya",     t2:"Aravind – Manav"},
+  {id:"m18", t:"17:40–17:50",s:"S5", c:"court 8",g:"Red", t1:"KP – Manu",     t2:"Urop – Shan"},
   {id:"m19", t:"17:40–17:50",s:"S5", c:"court 10",g:"Blue",t1:"Adhil – Justin",     t2:"Janaki – Srini"},
-  {id:"m20", t:"17:40–17:50",s:"S5", c:"court 11",g:"Blue",t1:"Kaleem – Simar",     t2:"Ragul – Cibi"},
-  {id:"m21", t:"17:50–18:00",s:"S6", c:"court 7",g:"Red", t1:"Prajoth – Lakpriya", t2:"KP – Manu"},
-  {id:"m22", t:"17:50–18:00",s:"S6", c:"court 8",g:"Red", t1:"Magesh – JP",        t2:"Shyam – Ananth"},
-  {id:"m23", t:"17:50–18:00",s:"S6", c:"court 10",g:"Blue",t1:"Poorna – Ram",       t2:"Jaawid – Cliff"},
-  {id:"m24", t:"17:50–18:00",s:"S6", c:"court 11",g:"Blue",t1:"Rehan – Thevindu",   t2:"Kaleem – Simar"},
-  {id:"m25", t:"18:00–18:10",s:"S7", c:"court 7",g:"Red", t1:"Srikanth – Tom",     t2:"Prajoth – Lakpriya"},
+  {id:"m20", t:"17:40–17:50",s:"S5", c:"court 11",g:"Blue",t1:"Poorna – Ram",     t2:"Ragul – Cibi"},
+  {id:"m21", t:"17:50–18:00",s:"S6", c:"court 7",g:"Red", t1:"Shyam – Ananth", t2:"Srikanth – Tom"},
+  {id:"m22", t:"17:50–18:00",s:"S6", c:"court 8",g:"Red", t1:"Magesh – JP",        t2:"KP – Manu"},
+  {id:"m23", t:"17:50–18:00",s:"S6", c:"court 10",g:"Blue",t1:"Jaawid – Cliff",       t2:"Kaleem – Simar"},
+  {id:"m24", t:"17:50–18:00",s:"S6", c:"court 11",g:"Blue",t1:"Rehan – Thevindu",   t2:"Poorna – Ram"},
+  {id:"m25", t:"18:00–18:10",s:"S7", c:"court 7",g:"Red", t1:"Prajoth – Lakpriya",     t2:"Srikanth – Tom"},
   {id:"m26", t:"18:00–18:10",s:"S7", c:"court 8",g:"Red", t1:"Aravind – Manav",    t2:"Urop – Shan"},
-  {id:"m27", t:"18:00–18:10",s:"S7", c:"court 10",g:"Blue",t1:"Adhil – Justin",     t2:"Poorna – Ram"},
+  {id:"m27", t:"18:00–18:10",s:"S7", c:"court 10",g:"Blue",t1:"Adhil – Justin",     t2:"Kaleem – Simar"},
   {id:"m28", t:"18:00–18:10",s:"S7", c:"court 11",g:"Blue",t1:"Janaki – Srini",     t2:"Ragul – Cibi"},
   {id:"m29", t:"18:10–18:20",s:"S8", c:"court 7",g:"Red", t1:"KP – Manu",          t2:"Shyam – Ananth"},
   {id:"m30", t:"18:10–18:20",s:"S8", c:"court 8",g:"Red", t1:"Magesh – JP",        t2:"Urop – Shan"},
-  {id:"m31", t:"18:10–18:20",s:"S8", c:"court 10",g:"Blue",t1:"Jaawid – Cliff",     t2:"Janaki – Srini"},
+  {id:"m31", t:"18:10–18:20",s:"S8", c:"court 10",g:"Blue",t1:"Jaawid – Cliff",     t2:"Poorna – Ram"},
   {id:"m32", t:"18:10–18:20",s:"S8", c:"court 11",g:"Blue",t1:"Rehan – Thevindu",   t2:"Ragul – Cibi"},
-  {id:"m33", t:"18:20–18:30",s:"S9", c:"court 7",g:"Red", t1:"Srikanth – Tom",     t2:"Urop – Shan"},
-  {id:"m34", t:"18:20–18:30",s:"S9", c:"court 8",g:"Red", t1:"Aravind – Manav",    t2:"Prajoth – Lakpriya"},
+  {id:"m33", t:"18:20–18:30",s:"S9", c:"court 7",g:"Red", t1:"Prajoth – Lakpriya",     t2:"Urop – Shan"},
+  {id:"m34", t:"18:20–18:30",s:"S9", c:"court 8",g:"Red", t1:"Aravind – Manav",    t2:"Srikanth – Tom"},
   {id:"m35", t:"18:20–18:30",s:"S9", c:"court 10",g:"Blue",t1:"Adhil – Justin",     t2:"Ragul – Cibi"},
-  {id:"m36", t:"18:20–18:30",s:"S9", c:"court 11",g:"Blue",t1:"Kaleem – Simar",     t2:"Jaawid – Cliff"},
-  {id:"m37", t:"18:30–18:40",s:"S10",c:"court 7",g:"Red", t1:"KP – Manu",          t2:"Aravind – Manav"},
-  {id:"m38", t:"18:30–18:40",s:"S10",c:"court 8",g:"Red", t1:"Magesh – JP",        t2:"Prajoth – Lakpriya"},
-  {id:"m39", t:"18:30–18:40",s:"S10",c:"court 10",g:"Blue",t1:"Rehan – Thevindu",   t2:"Poorna – Ram"},
-  {id:"m40", t:"18:30–18:40",s:"S10",c:"court 11",g:"Blue",t1:"Janaki – Srini",     t2:"Adhil – Justin"},
-  {id:"m41", t:"18:40–18:50",s:"S11",c:"court 7",g:"Red", t1:"Srikanth – Tom",     t2:"Shyam – Ananth"},
-  {id:"m42", t:"18:40–18:50",s:"S11",c:"court 8",g:"Red", t1:"KP – Manu",          t2:"Prajoth – Lakpriya"},
-  {id:"m43", t:"18:40–18:50",s:"S11",c:"court 10",g:"Blue",t1:"Kaleem – Simar",     t2:"Adhil – Justin"},
-  {id:"m44", t:"18:40–18:50",s:"S11",c:"court 11",g:"Blue",t1:"Ragul – Cibi",       t2:"Poorna – Ram"},
+  {id:"m36", t:"18:20–18:30",s:"S9", c:"court 11",g:"Blue",t1:"Janaki – Srini",     t2:"Kaleem – Simar"},
+  {id:"m37", t:"18:30–18:40",s:"S10",c:"court 7",g:"Red", t1:"Shyam – Ananth",          t2:"Aravind – Manav"},
+  {id:"m38", t:"18:30–18:40",s:"S10",c:"court 8",g:"Red", t1:"Magesh – JP",        t2:"Srikanth – Tom"},
+  {id:"m39", t:"18:30–18:40",s:"S10",c:"court 10",g:"Blue",t1:"Jaawid – Cliff",   t2:"Janaki – Srini"},
+  {id:"m40", t:"18:30–18:40",s:"S10",c:"court 11",g:"Blue",t1:"Rehan – Thevindu",     t2:"Kaleem – Simar"},
+  {id:"m41", t:"18:40–18:50",s:"S11",c:"court 7",g:"Red", t1:"Prajoth – Lakpriya",     t2:"KP – Manu"},
+  {id:"m43", t:"18:40–18:50",s:"S11",c:"court 10",g:"Blue",t1:"Poorna – Ram",     t2:"Adhil – Justin"},
+  
 ];
 
 const KO=[
@@ -312,7 +311,7 @@ const KO=[
   {id:"qf4",t:"18:50–19:10",stage:"QF",   c:"court 11",t1:"Red 4th",    t2:"Blue 1st"},
   {id:"sf1",t:"19:10–19:30",stage:"SF",   c:"court 7",t1:"Winner QF1", t2:"Winner QF2"},
   {id:"sf2",t:"19:10–19:30",stage:"SF",   c:"court 8",t1:"Winner QF3", t2:"Winner QF4"},
-  {id:"3rd",t:"19:30–19:45",stage:"3rd Place",c:"court 8",t1:"Loser SF1", t2:"Loser SF2"},
+  {id:"3rd",t:"19:10–19:40",stage:"3rd",   c:"court 8",t1:"Loser SF1", t2:"Loser SF2"},
   {id:"fin",t:"19:30–19:45",stage:"Final",c:"court 7",t1:"Winner SF1", t2:"Winner SF2"},
 ];
 
@@ -411,7 +410,7 @@ function doLogout(){
   admin=false;
   const b=document.getElementById('adminBtn');
   b.textContent='🔐 Admin Login'; b.classList.remove('on');
-   // Hide setup tab and redirect away if currently on setup
+  // Hide setup tab and redirect away if currently on setup
   document.getElementById('setupTab').style.display='none';
   const setupPage=document.getElementById('page-setup');
   if(setupPage.classList.contains('active')){
@@ -502,7 +501,7 @@ function renderSched(){
   h+=`</div></div>`;
   h+=`<div class="card" style="margin-top:14px"><div class="card-head ko">⚡ Knockout — 18:50 to 19:45</div>`;
   let prevS=null;
-  const SL={QF:'Quarter Finals · 18:50–19:10',SF:'Semi Finals · 19:10–19:30',Final:'🏆 Final · 19:30–19:45'};
+  const SL={QF:'Quarter Finals · 18:50–19:10',SF:'Semi Finals · 19:10–19:30',3rd:'3rd Place · 19:40–19:45',Final:'🏆 Final · 19:30–19:45'};
   for(const m of KO){
     if(m.stage!==prevS){ h+=(prevS?'</div>':'')+`<div class="slot-banner ko">${SL[m.stage]}</div><div>`; prevS=m.stage; }
     h+=mrow(m,true);
@@ -571,7 +570,7 @@ function koName(lbl){
 }
 
 function renderKO(){
-  const SL={QF:'⚔️ Quarter Finals · 18:50–19:10',SF:'🥊 Semi Finals · 19:10–19:30',Final:'🏆 FINAL · 19:30–19:45'};
+  const SL={QF:'⚔️ Quarter Finals · 18:50–19:10',SF:'🥊 Semi Finals · 19:10–19:30',3rd:'3rd Place · 19:40–19:45',Final:'🏆 FINAL · 19:30–19:45'};
   let h='', ps=null;
   for(const m of KO){
     if(m.stage!==ps){
