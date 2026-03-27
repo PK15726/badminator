@@ -214,7 +214,7 @@ body{font-family:'Barlow',sans-serif;background:var(--navy);color:var(--text);mi
 <div class="page" id="page-plate">
   <div class="sec-title">🥉 Plate — QF Losers</div>
   <div style="font-size:.8rem;color:var(--muted);margin-bottom:14px;padding:10px 14px;background:var(--surface);border-left:4px solid #f97316;border-radius:6px;line-height:1.7;">
-    The four Quarter Final losers play a round robin (3 rounds × 2 matches) on Courts 3 &amp; 4 alongside the Semi Finals and Final. Top finisher wins the 🥉 Plate trophy.
+    The four Quarter Final losers play a round robin (3 rounds × 2 matches) on Courts 7 &amp; 8 alongside the Semi Finals and Final. Top finisher wins the 🥉 Plate trophy.
   </div>
   <div id="plate-rr"></div>
   <div style="margin-top:18px">
@@ -268,14 +268,14 @@ body{font-family:'Barlow',sans-serif;background:var(--navy);color:var(--text);mi
 
 <script>
 // ── DATA ──────────────────────────────────────────────────────────────
-const RED  = ["KP – Manu","Srikanth – Tom","Magesh – JP","Aravind – Manav","Shyam – Ananth","Prajoth – Lakpriya","Urop – Shan"];
+const RED  = ["KP – Manu","Ankushh – Tom","Magesh – JP","Aravind – Manav","Shyam – Ananth","Prajoth – Lakpriya","Urop – Shan"];
 const BLUE = ["Jaawid – Cliff","Adhil – Justin","Rehan – Thevindu","Janaki – Srini","Kaleem – Simar","Poorna – Ram","Ragul – Cibi"];
 const RR=[
   {id:"m1",  t:"17:00–17:10",s:"S1", c:"court 7",g:"Red",t1:"Shyam – Ananth",     t2:"Prajoth – Lakpriya"},
   {id:"m2",  t:"17:00–17:10",s:"S1", c:"court 8",g:"Red", t1:"Magesh – JP",        t2:"Aravind – Manav"},
   {id:"m3",  t:"17:00–17:10",s:"S1", c:"court 10",g:"Blue",t1:"Jaawid – Cliff",     t2:"Adhil – Justin"},
   {id:"m4",  t:"17:00–17:10",s:"S1", c:"court 11",g:"Blue",t1:"Rehan – Thevindu",   t2:"Janaki – Srini"},
-  {id:"m5",  t:"17:10–17:20",s:"S2", c:"court 7",g:"Red", t1:"KP – Manu",         t2:"Srikanth – Tom"} ,
+  {id:"m5",  t:"17:10–17:20",s:"S2", c:"court 7",g:"Red", t1:"KP – Manu",         t2:"Ankushh – Tom"} ,
   {id:"m6",  t:"17:10–17:20",s:"S2", c:"court 8",g:"Red", t1:"Urop – Shan",        t2:"Shyam – Ananth"},
   {id:"m7",  t:"17:10–17:20",s:"S2", c:"court 10",g:"Blue",t1:"Kaleem – Simar",     t2:"Poorna – Ram"},
   {id:"m8",  t:"17:10–17:20",s:"S2", c:"court 11",g:"Blue",t1:"Ragul – Cibi",       t2:"Jaawid – Cliff"},
@@ -283,7 +283,7 @@ const RR=[
   {id:"m10", t:"17:20–17:30",s:"S3", c:"court 8",g:"Red", t1:"Aravind – Manav",    t2:"KP – Manu"},
   {id:"m11", t:"17:20–17:30",s:"S3", c:"court 10",g:"Blue",t1:"Adhil – Justin",     t2:"Rehan – Thevindu"},
   {id:"m12", t:"17:20–17:30",s:"S3", c:"court 11",g:"Blue",t1:"Janaki – Srini",     t2:"Poorna – Ram"},
-  {id:"m13", t:"17:30–17:40",s:"S4", c:"court 7",g:"Red", t1:"Srikanth – Tom", t2:"Urop – Shan"},
+  {id:"m13", t:"17:30–17:40",s:"S4", c:"court 7",g:"Red", t1:"Ankushh – Tom", t2:"Urop – Shan"},
   {id:"m14", t:"17:30–17:40",s:"S4", c:"court 8",g:"Red", t1:"Shyam – Anant",          t2:"Magesh – JP"},
   {id:"m15", t:"17:30–17:40",s:"S4", c:"court 10",g:"Blue",t1:"Kaleem – Simar",       t2:"Ragul – Cibi"},
   {id:"m16", t:"17:30–17:40",s:"S4", c:"court 11",g:"Blue",t1:"Jaawid – Cliff",     t2:"Rehan – Thevindu"},
@@ -291,11 +291,11 @@ const RR=[
   {id:"m18", t:"17:40–17:50",s:"S5", c:"court 8",g:"Red", t1:"KP – Manu",     t2:"Urop – Shan"},
   {id:"m19", t:"17:40–17:50",s:"S5", c:"court 10",g:"Blue",t1:"Adhil – Justin",     t2:"Janaki – Srini"},
   {id:"m20", t:"17:40–17:50",s:"S5", c:"court 11",g:"Blue",t1:"Poorna – Ram",     t2:"Ragul – Cibi"},
-  {id:"m21", t:"17:50–18:00",s:"S6", c:"court 7",g:"Red", t1:"Shyam – Ananth", t2:"Srikanth – Tom"},
+  {id:"m21", t:"17:50–18:00",s:"S6", c:"court 7",g:"Red", t1:"Shyam – Ananth", t2:"Ankushh – Tom"},
   {id:"m22", t:"17:50–18:00",s:"S6", c:"court 8",g:"Red", t1:"Magesh – JP",        t2:"KP – Manu"},
   {id:"m23", t:"17:50–18:00",s:"S6", c:"court 10",g:"Blue",t1:"Jaawid – Cliff",       t2:"Kaleem – Simar"},
   {id:"m24", t:"17:50–18:00",s:"S6", c:"court 11",g:"Blue",t1:"Rehan – Thevindu",   t2:"Poorna – Ram"},
-  {id:"m25", t:"18:00–18:10",s:"S7", c:"court 7",g:"Red", t1:"Prajoth – Lakpriya",     t2:"Srikanth – Tom"},
+  {id:"m25", t:"18:00–18:10",s:"S7", c:"court 7",g:"Red", t1:"Prajoth – Lakpriya",     t2:"Ankushh – Tom"},
   {id:"m26", t:"18:00–18:10",s:"S7", c:"court 8",g:"Red", t1:"Aravind – Manav",    t2:"Urop – Shan"},
   {id:"m27", t:"18:00–18:10",s:"S7", c:"court 10",g:"Blue",t1:"Adhil – Justin",     t2:"Kaleem – Simar"},
   {id:"m28", t:"18:00–18:10",s:"S7", c:"court 11",g:"Blue",t1:"Janaki – Srini",     t2:"Ragul – Cibi"},
@@ -304,11 +304,11 @@ const RR=[
   {id:"m31", t:"18:10–18:20",s:"S8", c:"court 10",g:"Blue",t1:"Jaawid – Cliff",     t2:"Poorna – Ram"},
   {id:"m32", t:"18:10–18:20",s:"S8", c:"court 11",g:"Blue",t1:"Rehan – Thevindu",   t2:"Ragul – Cibi"},
   {id:"m33", t:"18:20–18:30",s:"S9", c:"court 7",g:"Red", t1:"Prajoth – Lakpriya",     t2:"Urop – Shan"},
-  {id:"m34", t:"18:20–18:30",s:"S9", c:"court 8",g:"Red", t1:"Aravind – Manav",    t2:"Srikanth – Tom"},
+  {id:"m34", t:"18:20–18:30",s:"S9", c:"court 8",g:"Red", t1:"Aravind – Manav",    t2:"Ankushh – Tom"},
   {id:"m35", t:"18:20–18:30",s:"S9", c:"court 10",g:"Blue",t1:"Adhil – Justin",     t2:"Ragul – Cibi"},
   {id:"m36", t:"18:20–18:30",s:"S9", c:"court 11",g:"Blue",t1:"Janaki – Srini",     t2:"Kaleem – Simar"},
   {id:"m37", t:"18:30–18:40",s:"S10",c:"court 7",g:"Red", t1:"Shyam – Ananth",          t2:"Aravind – Manav"},
-  {id:"m38", t:"18:30–18:40",s:"S10",c:"court 8",g:"Red", t1:"Magesh – JP",        t2:"Srikanth – Tom"},
+  {id:"m38", t:"18:30–18:40",s:"S10",c:"court 8",g:"Red", t1:"Magesh – JP",        t2:"Ankushh – Tom"},
   {id:"m39", t:"18:30–18:40",s:"S10",c:"court 10",g:"Blue",t1:"Jaawid – Cliff",   t2:"Janaki – Srini"},
   {id:"m40", t:"18:30–18:40",s:"S10",c:"court 11",g:"Blue",t1:"Rehan – Thevindu",     t2:"Kaleem – Simar"},
   {id:"m41", t:"18:40–18:50",s:"S11",c:"court 7",g:"Red", t1:"Prajoth – Lakpriya",     t2:"KP – Manu"},
@@ -318,14 +318,14 @@ const RR=[
 
 
 const KO=[
-  {id:"qf1",t:"18:50–19:10",stage:"QF",    c:"Court 1",t1:"Red 1st",    t2:"Blue 4th"},
-  {id:"qf2",t:"18:50–19:10",stage:"QF",    c:"Court 2",t1:"Red 2nd",    t2:"Blue 3rd"},
-  {id:"qf3",t:"18:50–19:10",stage:"QF",    c:"Court 3",t1:"Red 3rd",    t2:"Blue 2nd"},
-  {id:"qf4",t:"18:50–19:10",stage:"QF",    c:"Court 4",t1:"Red 4th",    t2:"Blue 1st"},
-  {id:"sf1",t:"19:10–19:30",stage:"SF",    c:"Court 1",t1:"Winner QF1", t2:"Winner QF2"},
-  {id:"sf2",t:"19:10–19:30",stage:"SF",    c:"Court 2",t1:"Winner QF3", t2:"Winner QF4"},
-  {id:"3rd",t:"19:30–19:45",stage:"3rd",   c:"Court 2",t1:"Loser SF1",  t2:"Loser SF2"},
-  {id:"fin",t:"19:30–19:45",stage:"Final", c:"Court 1",t1:"Winner SF1", t2:"Winner SF2"},
+  {id:"qf1",t:"18:50–19:10",stage:"QF",    c:"Court 7",t1:"Red 1st",    t2:"Blue 4th"},
+  {id:"qf2",t:"18:50–19:10",stage:"QF",    c:"Court 8",t1:"Red 2nd",    t2:"Blue 3rd"},
+  {id:"qf3",t:"18:50–19:10",stage:"QF",    c:"Court 10",t1:"Red 3rd",    t2:"Blue 2nd"},
+  {id:"qf4",t:"18:50–19:10",stage:"QF",    c:"Court 11",t1:"Red 4th",    t2:"Blue 1st"},
+  {id:"sf1",t:"19:10–19:30",stage:"SF",    c:"Court 10",t1:"Winner QF1", t2:"Winner QF2"},
+  {id:"sf2",t:"19:10–19:30",stage:"SF",    c:"Court 11",t1:"Winner QF3", t2:"Winner QF4"},
+  {id:"3rd",t:"19:30–19:45",stage:"3rd",   c:"Court 10",t1:"Loser SF1",  t2:"Loser SF2"},
+  {id:"fin",t:"19:30–19:45",stage:"Final", c:"Court 11",t1:"Winner SF1", t2:"Winner SF2"},
 ];
 
 // QF Losers Round Robin — 6 matches (4 losers play each other)
@@ -333,14 +333,14 @@ const KO=[
 // Round robin: 4 teams = 6 matches across 3 rounds
 const LRR=[
   // Round 1 (run alongside SF: 19:10–19:30)
-  {id:"lrr1",t:"19:10–19:25",s:"LR1",c:"Court 3",t1:"Loser QF1",t2:"Loser QF4"},
-  {id:"lrr2",t:"19:10–19:25",s:"LR1",c:"Court 4",t1:"Loser QF2",t2:"Loser QF3"},
+  {id:"lrr1",t:"19:10–19:25",s:"LR1",c:"Court 7",t1:"Loser QF1",t2:"Loser QF4"},
+  {id:"lrr2",t:"19:10–19:25",s:"LR1",c:"Court 8",t1:"Loser QF2",t2:"Loser QF3"},
   // Round 2 (19:25–19:40)
-  {id:"lrr3",t:"19:25–19:40",s:"LR2",c:"Court 3",t1:"Loser QF1",t2:"Loser QF2"},
-  {id:"lrr4",t:"19:25–19:40",s:"LR2",c:"Court 4",t1:"Loser QF3",t2:"Loser QF4"},
+  {id:"lrr3",t:"19:25–19:40",s:"LR2",c:"Court 7",t1:"Loser QF1",t2:"Loser QF2"},
+  {id:"lrr4",t:"19:25–19:40",s:"LR2",c:"Court 8",t1:"Loser QF3",t2:"Loser QF4"},
   // Round 3 (19:40–19:55)
-  {id:"lrr5",t:"19:40–19:55",s:"LR3",c:"Court 3",t1:"Loser QF1",t2:"Loser QF3"},
-  {id:"lrr6",t:"19:40–19:55",s:"LR3",c:"Court 4",t1:"Loser QF2",t2:"Loser QF4"},
+  {id:"lrr5",t:"19:40–19:55",s:"LR3",c:"Court 7",t1:"Loser QF1",t2:"Loser QF3"},
+  {id:"lrr6",t:"19:40–19:55",s:"LR3",c:"Court 8",t1:"Loser QF2",t2:"Loser QF4"},
 ];
 
 // ── STATE ─────────────────────────────────────────────────────────────
