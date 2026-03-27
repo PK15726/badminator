@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Badminator-Samsher Interclub</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --red:#e63946;--red-dk:#b71c2c;--red-lt:#fdecea;
+  --blue:#1d6fcd;--blue-dk:#0d4a9a;--blue-lt:#e8f1fc;
+  --gold:#f4c430;--gold-lt:#fff8e1;
+  --navy:#0b1a2e;--navy2:#112240;--navy3:#172d4d;
+  --surface:#1a2f50;--surface2:#1f3560;--border:#2a4070;
+  --text:#e8edf5;--muted:#7a92b8;--ko:#7c3aed;
+  --green:#22c55e;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Barlow',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;}
+
+.site-header{background:linear-gradient(135deg,var(--navy2),var(--navy3));border-bottom:3px solid var(--gold);padding:16px 24px 12px;text-align:center;position:relative;overflow:hidden;}
+.site-header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 30px,rgba(255,255,255,.015) 30px,rgba(255,255,255,.015) 60px);}
+.header-badge{display:inline-block;background:var(--gold);color:var(--navy);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.63rem;letter-spacing:.14em;padding:3px 12px;border-radius:20px;margin-bottom:6px;text-transform:uppercase;}
+.site-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2rem;letter-spacing:.04em;color:#fff;text-transform:uppercase;}
+.site-title span{color:var(--gold);}
+.site-subtitle{font-size:.77rem;color:var(--muted);margin-top:4px;letter-spacing:.05em;}
+
+.status-bar{display:flex;align-items:center;gap:10px;padding:7px 18px;background:var(--navy2);border-bottom:1px solid var(--border);font-size:.77rem;flex-wrap:wrap;}
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);animation:blink 1.5s ease-in-out infinite;margin-right:4px;vertical-align:middle;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.sync-label{color:var(--muted);}
+.sync-label.ok{color:var(--green);}
+.sync-label.err{color:var(--red);}
+.sync-label.warn{color:var(--gold);}
+.admin-btn{margin-left:auto;background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:4px 14px;border-radius:5px;font-size:.74rem;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.05em;transition:all .15s;}
+.admin-btn.on{background:var(--gold);color:var(--navy);border-color:var(--gold);}
+
+.tabs{display:flex;background:var(--navy2);border-bottom:2px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:11px 18px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.86rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .18s;}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+.page{display:none;padding:18px;max-width:1100px;margin:0 auto;}
+.page.active{display:block;}
+.sec-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px;}
+.card-head{padding:10px 16px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;}
+.card-head.red{background:var(--red-dk);color:#fff;}
+.card-head.blue{background:var(--blue-dk);color:#fff;}
+.card-head.ko{background:var(--ko);color:#fff;}
+.card-head.dark{background:var(--navy2);color:var(--gold);}
+
+.slot-banner{background:var(--navy2);border-left:4px solid var(--gold);padding:7px 14px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.07em;color:var(--gold);text-transform:uppercase;}
+.slot-banner.ko{border-color:var(--ko);color:#c4b5fd;background:#180d2e;}
+
+.match-row{display:grid;grid-template-columns:90px 66px 1fr 40px 1fr 108px;align-items:center;padding:9px 14px;border-bottom:1px solid var(--border);gap:8px;transition:background .15s;}
+.match-row:last-child{border-bottom:none;}
+.match-row:hover{background:var(--surface2);}
+.mr-red{border-left:3px solid var(--red);}
+.mr-blue{border-left:3px solid var(--blue);}
+.mr-ko{border-left:3px solid var(--ko);background:#120820;}
+.mtime{font-size:.69rem;color:var(--muted);}
+.cbadge{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.69rem;padding:2px 7px;border-radius:4px;text-align:center;}
+.c1{background:var(--red-dk);color:#fff;}.c2{background:var(--red);color:#fff;}
+.c3{background:var(--blue-dk);color:#fff;}.c4{background:var(--blue);color:#fff;}
+.cko{background:var(--ko);color:#fff;}
+.tname{font-weight:600;font-size:.86rem;text-align:right;line-height:1.2;}
+.tname.r{text-align:left;}
+.vs{background:var(--navy2);color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.7rem;text-align:center;border-radius:4px;padding:3px 0;}
+
+.score-box{display:flex;align-items:center;gap:4px;justify-content:center;}
+.sinput{width:35px;background:var(--navy);border:1px solid var(--border);border-radius:5px;color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1rem;text-align:center;padding:4px 2px;outline:none;transition:border-color .2s;}
+.sinput:focus{border-color:var(--gold);}
+.ssep{color:var(--muted);font-weight:700;font-size:.9rem;}
+.sbtn{background:var(--gold);color:var(--navy);border:none;border-radius:5px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.67rem;padding:5px 7px;cursor:pointer;transition:opacity .15s;}
+.sbtn:hover{opacity:.85;}
+.sbtn:disabled{opacity:.35;cursor:not-allowed;}
+.rdisplay{text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.95rem;line-height:1.3;}
+.wtag{font-size:.64rem;padding:1px 6px;border-radius:3px;font-weight:700;display:inline-block;margin-top:2px;}
+.wred{background:var(--red-dk);color:#fff;}.wblue{background:var(--blue-dk);color:#fff;}
+.wdraw{background:#555;color:#fff;}.wko{background:var(--ko);color:#fff;}
+
+.std-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:680px){.std-wrap{grid-template-columns:1fr;}}
+.std-table{width:100%;border-collapse:collapse;font-size:.79rem;}
+.std-table th{background:var(--navy2);color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.06em;font-size:.68rem;padding:7px 8px;text-align:center;border-bottom:1px solid var(--border);}
+.std-table th:first-child{text-align:left;}
+.std-table td{padding:8px 8px;text-align:center;border-bottom:1px solid var(--border);font-weight:500;}
+.std-table td:first-child{text-align:left;font-weight:600;}
+.std-table tr:last-child td{border-bottom:none;}
+.std-table tr:hover td{background:var(--surface2);}
+.rnk{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.74rem;margin-right:7px;}
+.r1{background:var(--gold);color:var(--navy);}.r2{background:#aaa;color:var(--navy);}
+.r3{background:#cd7f32;color:#fff;}.rn{background:var(--border);color:var(--muted);}
+.dp{color:#4ade80;font-weight:700;}.dn{color:var(--red);font-weight:700;}
+.pts{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.95rem;color:var(--gold);}
+
+.grp-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:600px){.grp-grid{grid-template-columns:1fr;}}
+.titem{display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:1px solid var(--border);font-size:.87rem;font-weight:500;}
+.titem:last-child{border-bottom:none;}
+.sbdg{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.76rem;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sred{background:var(--red-dk);color:#fff;}.sblue{background:var(--blue-dk);color:#fff;}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:999;backdrop-filter:blur(5px);}
+.overlay.hide{display:none;}
+.mbox{background:var(--navy3);border:1px solid var(--border);border-top:3px solid var(--gold);border-radius:12px;padding:30px 26px;width:100%;max-width:360px;text-align:center;}
+.mtitle{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.35rem;color:var(--gold);margin-bottom:5px;letter-spacing:.06em;text-transform:uppercase;}
+.msub{font-size:.8rem;color:var(--muted);margin-bottom:20px;line-height:1.5;}
+.minput{width:100%;background:var(--navy);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'Barlow',sans-serif;font-size:1rem;padding:10px 14px;outline:none;margin-bottom:12px;text-align:center;letter-spacing:.1em;transition:border-color .2s;}
+.minput:focus{border-color:var(--gold);}
+.mbtn{width:100%;background:var(--gold);color:var(--navy);border:none;border-radius:7px;padding:11px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.06em;cursor:pointer;transition:opacity .15s;}
+.mbtn:hover{opacity:.88;}
+.merr{color:var(--red);font-size:.78rem;margin-top:8px;min-height:16px;}
+.mcancel{margin-top:10px;font-size:.76rem;color:var(--muted);cursor:pointer;display:block;}
+.mcancel:hover{color:var(--text);}
+
+/* SETUP */
+.guide{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:8px;padding:16px 18px;margin-bottom:16px;font-size:.8rem;line-height:1.8;color:var(--muted);}
+.guide h3{color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.06em;margin-bottom:8px;}
+.guide a{color:#60a5fa;text-decoration:none;}.guide a:hover{text-decoration:underline;}
+.guide code{background:var(--navy2);color:var(--gold);padding:1px 6px;border-radius:3px;font-size:.78rem;}
+.step{display:flex;gap:9px;margin-bottom:6px;align-items:flex-start;}
+.snum{background:var(--gold);color:var(--navy);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.72rem;width:21px;height:21px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.cform{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:14px;}
+.clabel{font-size:.76rem;color:var(--muted);margin-bottom:4px;display:block;letter-spacing:.04em;}
+.cinput{width:100%;background:var(--navy);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'Barlow',sans-serif;font-size:.86rem;padding:9px 11px;outline:none;margin-bottom:11px;transition:border-color .2s;}
+.cinput:focus{border-color:var(--gold);}
+.cbtn{background:var(--gold);color:var(--navy);border:none;border-radius:6px;padding:9px 20px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.88rem;cursor:pointer;letter-spacing:.05em;margin-right:8px;margin-bottom:8px;transition:opacity .15s;}
+.cbtn:hover{opacity:.88;}
+.cbtn.sec{background:var(--surface2);color:var(--muted);border:1px solid var(--border);}
+.cbtn.danger{background:#7f1d1d;color:#fca5a5;border:1px solid #b91c1c;}
+.cmsg{margin-top:8px;font-size:.78rem;color:var(--muted);line-height:1.6;}
+
+.toast{position:fixed;bottom:20px;right:20px;background:var(--green);color:var(--navy);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.86rem;padding:9px 16px;border-radius:7px;transform:translateY(60px);opacity:0;transition:all .3s;z-index:2000;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.bad{background:var(--red);color:#fff;}
+
+@media(max-width:580px){
+  .match-row{grid-template-columns:58px 52px 1fr 30px 1fr 88px;gap:4px;padding:8px 9px;}
+  .tname{font-size:.78rem;}.sinput{width:28px;font-size:.9rem;}
+  .site-title{font-size:1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN MODAL -->
+<div class="overlay hide" id="loginModal">
+  <div class="mbox">
+    <div style="font-size:2rem;margin-bottom:8px">🔐</div>
+    <div class="mtitle">Admin Access</div>
+    <div class="msub">Enter your admin password to enter and update match scores.</div>
+    <input class="minput" type="password" id="pwInput" placeholder="password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button class="mbtn" onclick="doLogin()">Unlock</button>
+    <div class="merr" id="pwErr"></div>
+    <span class="mcancel" onclick="closeModal()">✕ Cancel</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="site-header">
+  <div class="header-badge">🏸 Live Tournament</div>
+  <div class="site-title">Badminator<span>-</span>Samsher <span>Interclub</span></div>
+  <div class="site-subtitle">Round Robin + Knockout · 17:00–19:45 · 10 min/match</div>
+</div>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <span><span class="live-dot"></span>Live</span>
+  <span class="sync-label" id="syncLbl">Connecting…</span>
+  <span id="syncTime" style="color:var(--muted);font-size:.7rem;"></span>
+  <button class="admin-btn" id="adminBtn" onclick="adminClick()">🔐 Admin Login</button>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active"  onclick="goTab('schedule',this)">📅 Schedule</div>
+  <div class="tab" onclick="goTab('scoreboard',this)">🎯 Scoreboard</div>
+  <div class="tab" onclick="goTab('standings',this)">🏆 Standings</div>
+  <div class="tab" onclick="goTab('knockout',this)">⚡ Knockout</div>
+  <div class="tab" onclick="goTab('plate',this)">🥉 Plate</div>
+  <div class="tab" onclick="goTab('groups',this)">👥 Groups</div>
+  <div class="tab admin-only" id="setupTab" style="display:none" onclick="goTab('setup',this)">⚙️ Setup</div>
+</div>
+
+<div class="page active" id="page-schedule">
+  <div class="sec-title">📅 Full Match Schedule</div>
+  <div id="sched"></div>
+</div>
+
+<div class="page" id="page-scoreboard">
+  <div class="sec-title"><span class="live-dot"></span> Live Scoreboard</div>
+  <div id="scoreboard"></div>
+</div>
+
+<div class="page" id="page-standings">
+  <div class="sec-title">🏆 Points Table</div>
+  <div class="std-wrap">
+    <div><div class="card"><div class="card-head red">🔴 Red Group</div><table class="std-table" id="redTbl"></table></div></div>
+    <div><div class="card"><div class="card-head blue">🔵 Blue Group</div><table class="std-table" id="blueTbl"></table></div></div>
+  </div>
+  <div style="font-size:.7rem;color:var(--muted);padding:2px 0;margin-top:4px;">P=Played · W=Won · L=Lost · PF=Points For · PA=Against · Diff=PF–PA · Pts=2×W</div>
+</div>
+
+<div class="page" id="page-knockout">
+  <div class="sec-title">⚡ Knockout Stage</div>
+  <div id="knockout"></div>
+</div>
+
+<div class="page" id="page-plate">
+  <div class="sec-title">🥉 Plate — QF Losers</div>
+  <div style="font-size:.8rem;color:var(--muted);margin-bottom:14px;padding:10px 14px;background:var(--surface);border-left:4px solid #f97316;border-radius:6px;line-height:1.7;">
+    The four Quarter Final losers play a round robin (3 rounds × 2 matches) on Courts 3 &amp; 4 alongside the Semi Finals and Final. Top finisher wins the 🥉 Plate trophy.
+  </div>
+  <div id="plate-rr"></div>
+  <div style="margin-top:18px">
+    <div class="sec-title" style="font-size:1rem">🏅 Plate Standings</div>
+    <div id="plate-std"></div>
+  </div>
+</div>
+
+<div class="page" id="page-groups">
+  <div class="sec-title">👥 Team Groups</div>
+  <div class="grp-grid">
+    <div class="card"><div class="card-head red">🔴 Red Group — Courts 1 & 2</div><div id="redList"></div></div>
+    <div class="card"><div class="card-head blue">🔵 Blue Group — Courts 3 & 4</div><div id="blueList"></div></div>
+  </div>
+</div>
+
+<div class="page" id="page-setup">
+  <div class="sec-title">⚙️ Setup</div>
+
+  <div class="guide">
+    <h3>🔥 Step 1 — Create a free Firebase database</h3>
+    <div class="step"><span class="snum">1</span><span>Go to <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a> → <strong>Add project</strong> → give it any name → Continue → disable Analytics → Create project</span></div>
+    <div class="step"><span class="snum">2</span><span>In your project sidebar → click <strong>Build → Realtime Database</strong> → <strong>Create Database</strong> → pick any location → select <strong style="color:#f4c430">"Start in test mode"</strong> → Enable</span></div>
+    <div class="step"><span class="snum">3</span><span>Copy the URL shown at the top — looks like: <code>https://badminator-default-rtdb.firebaseio.com</code></span></div>
+  </div>
+
+  <div class="cform">
+    <label class="clabel">🔗 Firebase Realtime Database URL</label>
+    <input class="cinput" id="cfgUrl" placeholder="https://your-project-default-rtdb.firebaseio.com"/>
+    <label class="clabel">🔑 Admin Password — choose anything, keep it secret</label>
+    <input class="cinput" id="cfgPw" type="password" placeholder="e.g.  badmin2025"/>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="cbtn" onclick="saveConfig()">💾 Save & Connect</button>
+      <button class="cbtn sec" onclick="clearScores()">🗑️ Reset Scores</button>
+    </div>
+    <div class="cmsg" id="cfgMsg" style="margin-top:14px;"></div>
+  </div>
+
+  <div class="guide" style="border-color:#3b82f6;">
+    <h3>📤 Step 2 — Share with players (free hosting)</h3>
+    <div class="step"><span class="snum">1</span><span>After saving above, a <strong>📥 Download</strong> button appears — click it to get a ready-to-share file with your Firebase URL baked in</span></div>
+    <div class="step"><span class="snum">2</span><span>Upload that downloaded file to <a href="https://static.run" target="_blank">static.run</a> (drag &amp; drop → instant free link, no account needed)</span></div>
+    <div class="step"><span class="snum">3</span><span>Share the link — viewers see live scores automatically. Only you can login as admin with your password.</span></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────
+const RED  = ["KP – Manu","Srikanth – Tom","Magesh – JP","Aravind – Manav","Shyam – Ananth","Prajoth – Lakpriya","Urop – Shan"];
+const BLUE = ["Jaawid – Cliff","Adhil – Justin","Rehan – Thevindu","Janaki – Srini","Kaleem – Simar","Poorna – Ram","Ragul – Cibi"];
+
+const RR=[
+  {id:"m1",  t:"17:00–17:10",s:"S1", c:"Court 1",g:"Red", t1:"KP – Manu",         t2:"Srikanth – Tom"},
+  {id:"m2",  t:"17:00–17:10",s:"S1", c:"Court 2",g:"Red", t1:"Magesh – JP",        t2:"Aravind – Manav"},
+  {id:"m3",  t:"17:00–17:10",s:"S1", c:"Court 3",g:"Blue",t1:"Jaawid – Cliff",     t2:"Adhil – Justin"},
+  {id:"m4",  t:"17:00–17:10",s:"S1", c:"Court 4",g:"Blue",t1:"Rehan – Thevindu",   t2:"Janaki – Srini"},
+  {id:"m5",  t:"17:10–17:20",s:"S2", c:"Court 1",g:"Red", t1:"Shyam – Ananth",     t2:"Prajoth – Lakpriya"},
+  {id:"m6",  t:"17:10–17:20",s:"S2", c:"Court 2",g:"Red", t1:"Urop – Shan",        t2:"KP – Manu"},
+  {id:"m7",  t:"17:10–17:20",s:"S2", c:"Court 3",g:"Blue",t1:"Kaleem – Simar",     t2:"Poorna – Ram"},
+  {id:"m8",  t:"17:10–17:20",s:"S2", c:"Court 4",g:"Blue",t1:"Ragul – Cibi",       t2:"Jaawid – Cliff"},
+  {id:"m9",  t:"17:20–17:30",s:"S3", c:"Court 1",g:"Red", t1:"Srikanth – Tom",     t2:"Magesh – JP"},
+  {id:"m10", t:"17:20–17:30",s:"S3", c:"Court 2",g:"Red", t1:"Aravind – Manav",    t2:"Shyam – Ananth"},
+  {id:"m11", t:"17:20–17:30",s:"S3", c:"Court 3",g:"Blue",t1:"Adhil – Justin",     t2:"Rehan – Thevindu"},
+  {id:"m12", t:"17:20–17:30",s:"S3", c:"Court 4",g:"Blue",t1:"Janaki – Srini",     t2:"Kaleem – Simar"},
+  {id:"m13", t:"17:30–17:40",s:"S4", c:"Court 1",g:"Red", t1:"Prajoth – Lakpriya", t2:"Urop – Shan"},
+  {id:"m14", t:"17:30–17:40",s:"S4", c:"Court 2",g:"Red", t1:"KP – Manu",          t2:"Magesh – JP"},
+  {id:"m15", t:"17:30–17:40",s:"S4", c:"Court 3",g:"Blue",t1:"Poorna – Ram",       t2:"Ragul – Cibi"},
+  {id:"m16", t:"17:30–17:40",s:"S4", c:"Court 4",g:"Blue",t1:"Jaawid – Cliff",     t2:"Rehan – Thevindu"},
+  {id:"m17", t:"17:40–17:50",s:"S5", c:"Court 1",g:"Red", t1:"Srikanth – Tom",     t2:"Aravind – Manav"},
+  {id:"m18", t:"17:40–17:50",s:"S5", c:"Court 2",g:"Red", t1:"Shyam – Ananth",     t2:"Urop – Shan"},
+  {id:"m19", t:"17:40–17:50",s:"S5", c:"Court 3",g:"Blue",t1:"Adhil – Justin",     t2:"Janaki – Srini"},
+  {id:"m20", t:"17:40–17:50",s:"S5", c:"Court 4",g:"Blue",t1:"Kaleem – Simar",     t2:"Ragul – Cibi"},
+  {id:"m21", t:"17:50–18:00",s:"S6", c:"Court 1",g:"Red", t1:"Prajoth – Lakpriya", t2:"KP – Manu"},
+  {id:"m22", t:"17:50–18:00",s:"S6", c:"Court 2",g:"Red", t1:"Magesh – JP",        t2:"Shyam – Ananth"},
+  {id:"m23", t:"17:50–18:00",s:"S6", c:"Court 3",g:"Blue",t1:"Poorna – Ram",       t2:"Jaawid – Cliff"},
+  {id:"m24", t:"17:50–18:00",s:"S6", c:"Court 4",g:"Blue",t1:"Rehan – Thevindu",   t2:"Kaleem – Simar"},
+  {id:"m25", t:"18:00–18:10",s:"S7", c:"Court 1",g:"Red", t1:"Srikanth – Tom",     t2:"Prajoth – Lakpriya"},
+  {id:"m26", t:"18:00–18:10",s:"S7", c:"Court 2",g:"Red", t1:"Aravind – Manav",    t2:"Urop – Shan"},
+  {id:"m27", t:"18:00–18:10",s:"S7", c:"Court 3",g:"Blue",t1:"Adhil – Justin",     t2:"Poorna – Ram"},
+  {id:"m28", t:"18:00–18:10",s:"S7", c:"Court 4",g:"Blue",t1:"Janaki – Srini",     t2:"Ragul – Cibi"},
+  {id:"m29", t:"18:10–18:20",s:"S8", c:"Court 1",g:"Red", t1:"KP – Manu",          t2:"Shyam – Ananth"},
+  {id:"m30", t:"18:10–18:20",s:"S8", c:"Court 2",g:"Red", t1:"Magesh – JP",        t2:"Urop – Shan"},
+  {id:"m31", t:"18:10–18:20",s:"S8", c:"Court 3",g:"Blue",t1:"Jaawid – Cliff",     t2:"Janaki – Srini"},
+  {id:"m32", t:"18:10–18:20",s:"S8", c:"Court 4",g:"Blue",t1:"Rehan – Thevindu",   t2:"Ragul – Cibi"},
+  {id:"m33", t:"18:20–18:30",s:"S9", c:"Court 1",g:"Red", t1:"Srikanth – Tom",     t2:"Urop – Shan"},
+  {id:"m34", t:"18:20–18:30",s:"S9", c:"Court 2",g:"Red", t1:"Aravind – Manav",    t2:"Prajoth – Lakpriya"},
+  {id:"m35", t:"18:20–18:30",s:"S9", c:"Court 3",g:"Blue",t1:"Adhil – Justin",     t2:"Ragul – Cibi"},
+  {id:"m36", t:"18:20–18:30",s:"S9", c:"Court 4",g:"Blue",t1:"Kaleem – Simar",     t2:"Jaawid – Cliff"},
+  {id:"m37", t:"18:30–18:40",s:"S10",c:"Court 1",g:"Red", t1:"KP – Manu",          t2:"Aravind – Manav"},
+  {id:"m38", t:"18:30–18:40",s:"S10",c:"Court 2",g:"Red", t1:"Magesh – JP",        t2:"Prajoth – Lakpriya"},
+  {id:"m39", t:"18:30–18:40",s:"S10",c:"Court 3",g:"Blue",t1:"Rehan – Thevindu",   t2:"Poorna – Ram"},
+  {id:"m40", t:"18:30–18:40",s:"S10",c:"Court 4",g:"Blue",t1:"Janaki – Srini",     t2:"Adhil – Justin"},
+  {id:"m41", t:"18:40–18:50",s:"S11",c:"Court 1",g:"Red", t1:"Srikanth – Tom",     t2:"Shyam – Ananth"},
+  {id:"m42", t:"18:40–18:50",s:"S11",c:"Court 2",g:"Red", t1:"KP – Manu",          t2:"Prajoth – Lakpriya"},
+  {id:"m43", t:"18:40–18:50",s:"S11",c:"Court 3",g:"Blue",t1:"Kaleem – Simar",     t2:"Adhil – Justin"},
+  {id:"m44", t:"18:40–18:50",s:"S11",c:"Court 4",g:"Blue",t1:"Ragul – Cibi",       t2:"Poorna – Ram"},
+];
+
+const KO=[
+  {id:"qf1",t:"18:50–19:10",stage:"QF",    c:"Court 1",t1:"Red 1st",    t2:"Blue 4th"},
+  {id:"qf2",t:"18:50–19:10",stage:"QF",    c:"Court 2",t1:"Red 2nd",    t2:"Blue 3rd"},
+  {id:"qf3",t:"18:50–19:10",stage:"QF",    c:"Court 3",t1:"Red 3rd",    t2:"Blue 2nd"},
+  {id:"qf4",t:"18:50–19:10",stage:"QF",    c:"Court 4",t1:"Red 4th",    t2:"Blue 1st"},
+  {id:"sf1",t:"19:10–19:30",stage:"SF",    c:"Court 1",t1:"Winner QF1", t2:"Winner QF2"},
+  {id:"sf2",t:"19:10–19:30",stage:"SF",    c:"Court 2",t1:"Winner QF3", t2:"Winner QF4"},
+  {id:"3rd",t:"19:30–19:45",stage:"3rd",   c:"Court 2",t1:"Loser SF1",  t2:"Loser SF2"},
+  {id:"fin",t:"19:30–19:45",stage:"Final", c:"Court 1",t1:"Winner SF1", t2:"Winner SF2"},
+];
+
+// QF Losers Round Robin — 6 matches (4 losers play each other)
+// Losers: Loser QF1, Loser QF2, Loser QF3, Loser QF4
+// Round robin: 4 teams = 6 matches across 3 rounds
+const LRR=[
+  // Round 1 (run alongside SF: 19:10–19:30)
+  {id:"lrr1",t:"19:10–19:25",s:"LR1",c:"Court 3",t1:"Loser QF1",t2:"Loser QF4"},
+  {id:"lrr2",t:"19:10–19:25",s:"LR1",c:"Court 4",t1:"Loser QF2",t2:"Loser QF3"},
+  // Round 2 (19:25–19:40)
+  {id:"lrr3",t:"19:25–19:40",s:"LR2",c:"Court 3",t1:"Loser QF1",t2:"Loser QF2"},
+  {id:"lrr4",t:"19:25–19:40",s:"LR2",c:"Court 4",t1:"Loser QF3",t2:"Loser QF4"},
+  // Round 3 (19:40–19:55)
+  {id:"lrr5",t:"19:40–19:55",s:"LR3",c:"Court 3",t1:"Loser QF1",t2:"Loser QF3"},
+  {id:"lrr6",t:"19:40–19:55",s:"LR3",c:"Court 4",t1:"Loser QF2",t2:"Loser QF4"},
+];
+
+// ── BAKED-IN FIREBASE URL (set this once, then share the file) ────────
+// After setup, click "Download Ready File" — it fills this in automatically.
+const FIREBASE_URL = 'https://badminator-default-rtdb.firebaseio.com/';
+// ── STATE ─────────────────────────────────────────────────────────────
+let DB   = FIREBASE_URL ? (FIREBASE_URL.endsWith('/') ? FIREBASE_URL.slice(0,-1) : FIREBASE_URL) : '';
+let scores = {};
+let admin  = false;
+let pollId = null;
+
+// Simple non-crypto hash — good enough for a tournament scoreboard
+function hash(s){
+  let h=5381;
+  for(let i=0;i<s.length;i++) h=((h<<5)+h)^s.charCodeAt(i);
+  return (h>>>0).toString(36);
+}
+
+// ── FIREBASE REST ─────────────────────────────────────────────────────
+// All data lives under DB/badminator.json  { scores:{...}, pwHash:"..." }
+
+async function fbRead(){
+  const r = await fetch(DB+'/badminator.json');
+  if(!r.ok) throw new Error('Firebase read failed (HTTP '+r.status+')');
+  return await r.json() || {};
+}
+
+async function fbWrite(path, value){
+  // path e.g. "scores/m1"  or  "pwHash"
+  const url = DB+'/badminator/'+path+'.json';
+  const method = value === null ? 'DELETE' : 'PUT';
+  const opts = { method, headers:{'Content-Type':'application/json'} };
+  if(value !== null) opts.body = JSON.stringify(value);
+  const r = await fetch(url, opts);
+  if(!r.ok) throw new Error('Firebase write failed (HTTP '+r.status+'). Check your database rules are set to test mode.');
+  return r;
+}
+
+// ── SYNC ─────────────────────────────────────────────────────────────
+function setSyncLabel(type, txt){
+  const el=document.getElementById('syncLbl');
+  el.className='sync-label '+type;
+  el.textContent=txt;
+}
+
+async function syncFromFirebase(){
+  if(!DB){ setSyncLabel('warn','No Firebase URL — go to Setup'); return; }
+  try{
+    const data = await fbRead();
+    scores = data.scores || {};
+    setSyncLabel('ok','✓ Live');
+    document.getElementById('syncTime').textContent = new Date().toLocaleTimeString();
+    renderAll();
+  } catch(e){
+    setSyncLabel('err','⚠ '+e.message);
+  }
+}
+
+function startPoll(){
+  if(pollId) clearInterval(pollId);
+  syncFromFirebase();
+  // Viewers poll every 10s; admin skips polling (they push, don't pull)
+  pollId = setInterval(()=>{ if(!admin) syncFromFirebase(); }, 10000);
+}
+
+// ── ADMIN AUTH ────────────────────────────────────────────────────────
+function adminClick(){
+  if(admin){ doLogout(); return; }
+  if(!DB){ toast('Set up Firebase first — go to Setup tab',true); return; }
+  document.getElementById('pwInput').value='Badsmash';
+  document.getElementById('pwErr').textContent='';
+  document.querySelector('#loginModal .mbtn').disabled=false;
+  document.querySelector('#loginModal .mbtn').textContent='Unlock';
+  document.getElementById('loginModal').classList.remove('hide');
+  setTimeout(()=>document.getElementById('pwInput').focus(),80);
+}
+
+async function doLogin(){
+  const pw = document.getElementById('pwInput').value.trim();
+  if(!pw){ document.getElementById('pwErr').textContent='Enter your password.'; return; }
+
+  const btn = document.querySelector('#loginModal .mbtn');
+  btn.textContent='Checking…'; btn.disabled=true;
+
+  // Always fetch the password hash fresh from Firebase — works on every device
+  let storedHash = null;
+  try{
+    const data = await fbRead();
+    storedHash = data.pwHash || null;
+  } catch(e){
+    btn.textContent='Unlock'; btn.disabled=false;
+    document.getElementById('pwErr').textContent='Cannot reach Firebase. Check your connection.';
+    return;
+  }
+
+  btn.textContent='Unlock'; btn.disabled=false;
+
+  if(!storedHash){
+    document.getElementById('pwErr').innerHTML=
+      'No password set yet.<br>Admin must go to <strong>⚙️ Setup</strong> and save a password first.';
+    return;
+  }
+
+  if(hash(pw) === storedHash){
+    loginOk();
+  } else {
+    document.getElementById('pwErr').textContent='Wrong password. Try again.';
+    document.getElementById('pwInput').select();
+  }
+}
+
+function loginOk(){
+  admin = true;
+  closeModal();
+  const b = document.getElementById('adminBtn');
+  b.textContent='🔓 Admin ON — Logout'; b.classList.add('on');
+  document.getElementById('setupTab').style.display='block';
+  toast('Admin mode on ✓');
+  renderAll();
+}
+
+function doLogout(){
+  admin = false;
+  const b = document.getElementById('adminBtn');
+  b.textContent='🔐 Admin Login'; b.classList.remove('on');
+  document.getElementById('setupTab').style.display='none';
+  if(document.getElementById('page-setup').classList.contains('active')){
+    goTab('schedule', document.querySelector('.tab'));
+  }
+  toast('Logged out');
+  startPoll();
+  renderAll();
+}
+
+function closeModal(){
+  document.getElementById('loginModal').classList.add('hide');
+  document.getElementById('pwInput').value='';
+  document.getElementById('pwErr').textContent='';
+}
+
+document.getElementById('loginModal').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+
+// ── SCORE SAVE ────────────────────────────────────────────────────────
+async function saveScore(id, btn){
+  if(!admin) return;
+  const s1 = document.getElementById('i1_'+id).value.trim();
+  const s2 = document.getElementById('i2_'+id).value.trim();
+  btn.disabled=true; btn.textContent='…';
+  try{
+    if(s1==='' && s2===''){
+      await fbWrite('scores/'+id, null);
+      delete scores[id];
+    } else {
+      const val = {s1:parseInt(s1)||0, s2:parseInt(s2)||0};
+      await fbWrite('scores/'+id, val);
+      scores[id] = val;
+    }
+    setSyncLabel('ok','✓ Saved');
+    document.getElementById('syncTime').textContent = new Date().toLocaleTimeString();
+    renderAll();
+    toast('Score saved ✓');
+  } catch(e){
+    toast('Save failed: '+e.message, true);
+  }
+  btn.disabled=false; btn.textContent='✓';
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────
+function cc(c){ return c==='Court 1'?'c1':c==='Court 2'?'c2':c==='Court 3'?'c3':c==='Court 4'?'c4':'cko'; }
+function mc(g){ return g==='Red'?'mr-red':g==='Blue'?'mr-blue':'mr-ko'; }
+
+function scoreCell(m,isKO){
+  const sc=scores[m.id];
+  if(!admin){
+    if(!sc) return `<div class="rdisplay" style="color:var(--muted);font-size:.7rem">–</div>`;
+    let w='';
+    if(sc.s1>sc.s2)     w=`<span class="wtag ${isKO?'wko':'wred'}">${m.t1.split(' ')[0]}</span>`;
+    else if(sc.s2>sc.s1)w=`<span class="wtag ${isKO?'wko':'wblue'}">${m.t2.split(' ')[0]}</span>`;
+    else                 w=`<span class="wtag wdraw">Draw</span>`;
+    return `<div class="rdisplay">${sc.s1}–${sc.s2}<br>${w}</div>`;
+  }
+  return `<div class="score-box">
+    <input class="sinput" id="i1_${m.id}" value="${sc?sc.s1:''}" placeholder="0" type="number" min="0" maxlength="2"/>
+    <span class="ssep">–</span>
+    <input class="sinput" id="i2_${m.id}" value="${sc?sc.s2:''}" placeholder="0" type="number" min="0" maxlength="2"/>
+    <button class="sbtn" onclick="saveScore('${m.id}',this)">✓</button>
+  </div>`;
+}
+
+function mrow(m,isKO){
+  return `<div class="match-row ${mc(m.g||'ko')}">
+    <div class="mtime">${m.t}</div>
+    <div><span class="cbadge ${cc(m.c)}">${m.c}</span></div>
+    <div class="tname">${m.t1}</div>
+    <div class="vs">VS</div>
+    <div class="tname r">${m.t2}</div>
+    ${scoreCell(m,isKO)}
+  </div>`;
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────
+function renderSched(){
+  let h='', prev=null;
+  h+=`<div class="card"><div class="card-head dark">🏸 Round Robin — 17:00 to 18:50</div>`;
+  for(const m of RR){
+    if(m.t!==prev){ h+=(prev?'</div>':'')+`<div class="slot-banner">${m.t} · ${m.s}</div><div>`; prev=m.t; }
+    h+=mrow(m);
+  }
+  h+=`</div></div>`;
+  h+=`<div class="card" style="margin-top:14px"><div class="card-head ko">⚡ Knockout — 18:50 to 19:45</div>`;
+  let prevS=null;
+  const SL={QF:'Quarter Finals · 18:50–19:10',SF:'Semi Finals · 19:10–19:30','3rd':'3rd Place Match · 19:30–19:45',Final:'🏆 Final · 19:30–19:45'};
+  for(const m of KO){
+    if(m.stage!==prevS){ h+=(prevS?'</div>':'')+`<div class="slot-banner ko">${SL[m.stage]}</div><div>`; prevS=m.stage; }
+    h+=mrow({...m,t1:resolveKOLabel(m.t1),t2:resolveKOLabel(m.t2),g:'ko'},true);
+  }
+  h+=`</div></div>`;
+  h+=`<div class="card" style="margin-top:14px"><div class="card-head dark" style="background:#431407;color:#fdba74;">🥉 Plate (QF Losers RR) — 19:10 to 19:55</div>`;
+  let prevLRR=null;
+  for(const m of LRR){
+    if(m.t!==prevLRR){ h+=(prevLRR?'</div>':'')+`<div class="slot-banner" style="border-color:#f97316;color:#fdba74;">${m.t} · ${m.s}</div><div>`; prevLRR=m.t; }
+    h+=mrow({...m,t1:resolveKOLabel(m.t1),t2:resolveKOLabel(m.t2),g:'plate'},true);
+  }
+  h+=`</div></div>`;
+  document.getElementById('sched').innerHTML=h;
+}
+
+function renderScoreboard(){
+  const allMatches=[...RR,...KO,...LRR];
+  const done=allMatches.filter(m=>scores[m.id]);
+  const pend=RR.filter(m=>!scores[m.id]);
+  let h='';
+  if(!done.length){
+    h=`<div class="card"><div style="padding:28px;text-align:center;color:var(--muted);font-size:.85rem">No scores yet. Admin enters scores during the tournament.</div></div>`;
+  } else {
+    h+=`<div class="card"><div class="card-head dark">✅ Completed — ${done.length}</div>`;
+    for(const m of done){
+      const isKO=KO.some(k=>k.id===m.id);
+      const isLRR=LRR.some(k=>k.id===m.id);
+      const dm=isKO||isLRR?{...m,t1:resolveKOLabel(m.t1),t2:resolveKOLabel(m.t2),g:'ko'}:m;
+      h+=mrow(dm,isKO||isLRR);
+    }
+    h+=`</div>`;
+  }
+  if(pend.length){
+    h+=`<div class="card" style="margin-top:14px"><div class="card-head dark" style="color:var(--muted)">⏳ Upcoming RR — ${pend.length}</div>`;
+    for(const m of pend) h+=mrow(m);
+    h+=`</div>`;
+  }
+  document.getElementById('scoreboard').innerHTML=h;
+}
+
+function calcStd(teams,grp){
+  const s={};
+  for(const t of teams) s[t]={p:0,w:0,l:0,d:0,pf:0,pa:0};
+  for(const m of RR){
+    if(m.g!==grp) continue;
+    const sc=scores[m.id]; if(!sc) continue;
+    s[m.t1].p++; s[m.t2].p++;
+    s[m.t1].pf+=sc.s1; s[m.t1].pa+=sc.s2;
+    s[m.t2].pf+=sc.s2; s[m.t2].pa+=sc.s1;
+    if(sc.s1>sc.s2){s[m.t1].w++;s[m.t2].l++;}
+    else if(sc.s2>sc.s1){s[m.t2].w++;s[m.t1].l++;}
+    else{s[m.t1].d++;s[m.t2].d++;}
+  }
+  return Object.entries(s).map(([n,v])=>({n,...v,pts:v.w*2+v.d,diff:v.pf-v.pa}))
+    .sort((a,b)=>b.pts-a.pts||b.diff-a.diff||b.pf-a.pf);
+}
+
+function tblHTML(rows){
+  let h=`<thead><tr><th style="text-align:left">Team</th><th>P</th><th>W</th><th>L</th><th>PF</th><th>PA</th><th>Diff</th><th>Pts</th></tr></thead><tbody>`;
+  rows.forEach((r,i)=>{
+    const rk=i<3?`r${i+1}`:'rn';
+    const dc=r.diff>0?'dp':r.diff<0?'dn':'';
+    h+=`<tr><td><span class="rnk ${rk}">${i+1}</span>${r.n}</td><td>${r.p}</td><td>${r.w}</td><td>${r.l}</td><td>${r.pf}</td><td>${r.pa}</td><td class="${dc}">${r.diff>0?'+':''}${r.diff}</td><td class="pts">${r.pts}</td></tr>`;
+  });
+  return h+`</tbody>`;
+}
+
+function renderStd(){
+  document.getElementById('redTbl').innerHTML =tblHTML(calcStd(RED,'Red'));
+  document.getElementById('blueTbl').innerHTML=tblHTML(calcStd(BLUE,'Blue'));
+}
+
+function koName(lbl){
+  const m=lbl.match(/(\w+) (\d+)/);
+  if(!m) return lbl;
+  const [,g,p]=m; const idx=parseInt(p)-1;
+  const st=g==='Red'?calcStd(RED,'Red'):calcStd(BLUE,'Blue');
+  return st[idx]?.n||lbl;
+}
+
+// resolve QF loser names from scores
+function qfLoserName(label){
+  const m=label.match(/Loser QF(\d)/);
+  if(!m) return label;
+  const qfId='qf'+m[1];
+  const sc=scores[qfId];
+  const qf=KO.find(k=>k.id===qfId);
+  if(!qf) return label;
+  const t1=koName(qf.t1), t2=koName(qf.t2);
+  if(!sc) return label; // score not entered yet
+  return sc.s1<sc.s2 ? t1 : sc.s2<sc.s1 ? t2 : label; // lower score = loser
+}
+
+// resolve SF loser names
+function sfLoserName(label){
+  const m=label.match(/Loser SF(\d)/);
+  if(!m) return label;
+  const sfId='sf'+m[1];
+  const sc=scores[sfId];
+  const sf=KO.find(k=>k.id===sfId);
+  if(!sf) return label;
+  const t1=sfMatchName(sf.t1), t2=sfMatchName(sf.t2);
+  if(!sc) return label;
+  return sc.s1<sc.s2 ? t1 : sc.s2<sc.s1 ? t2 : label;
+}
+
+function sfMatchName(lbl){
+  if(lbl.startsWith('Winner QF')){
+    const qfId='qf'+lbl.slice(-1);
+    const sc=scores[qfId];
+    const qf=KO.find(k=>k.id===qfId);
+    if(!qf||!sc) return lbl;
+    return sc.s1>sc.s2?koName(qf.t1):sc.s2>sc.s1?koName(qf.t2):lbl;
+  }
+  return lbl;
+}
+
+function resolveKOLabel(lbl){
+  if(lbl.startsWith('Loser QF')) return qfLoserName(lbl);
+  if(lbl.startsWith('Loser SF')) return sfLoserName(lbl);
+  if(lbl.startsWith('Winner QF')){
+    const qfId='qf'+lbl.slice(-1);
+    const sc=scores[qfId];
+    const qf=KO.find(k=>k.id===qfId);
+    if(!qf||!sc) return lbl;
+    return sc.s1>sc.s2?koName(qf.t1):sc.s2>sc.s1?koName(qf.t2):lbl;
+  }
+  if(lbl.startsWith('Winner SF')){
+    const sfId='sf'+lbl.slice(-1);
+    const sc=scores[sfId];
+    const sf=KO.find(k=>k.id===sfId);
+    if(!sf||!sc) return lbl;
+    const t1=sfMatchName(sf.t1),t2=sfMatchName(sf.t2);
+    return sc.s1>sc.s2?t1:sc.s2>sc.s1?t2:lbl;
+  }
+  return koName(lbl);
+}
+
+function renderKO(){
+  const SL={
+    QF:'⚔️ Quarter Finals · 18:50–19:10',
+    SF:'🥊 Semi Finals · 19:10–19:30',
+    '3rd':'🥉 3rd Place Match · 19:30–19:45',
+    Final:'🏆 FINAL · 19:30–19:45'
+  };
+  const stageColor={'3rd':'#f97316', Final:'var(--gold)', QF:'#c4b5fd', SF:'#c4b5fd'};
+  let h='', ps=null;
+  for(const m of KO){
+    if(m.stage!==ps){
+      if(ps) h+=`</div></div>`;
+      const col=stageColor[m.stage]||'#c4b5fd';
+      h+=`<div style="margin-bottom:20px"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.1em;color:${col};padding:6px 0 8px;text-transform:uppercase;border-left:3px solid ${col};padding-left:10px;margin-bottom:4px;">${SL[m.stage]}</div><div>`;
+      ps=m.stage;
+    }
+    const dm={...m, t1:resolveKOLabel(m.t1), t2:resolveKOLabel(m.t2), g:'ko'};
+    h+=mrow(dm,true);
+  }
+  h+=`</div></div>`;
+  document.getElementById('knockout').innerHTML=h;
+}
+
+function renderPlate(){
+  // Round robin matches
+  let h='', prevSlot=null;
+  h+=`<div class="card"><div class="card-head dark" style="background:#431407;color:#fdba74;">🥉 QF Losers Round Robin — Courts 3 & 4</div>`;
+  for(const m of LRR){
+    if(m.t!==prevSlot){
+      h+=(prevSlot?'</div>':'')+`<div class="slot-banner" style="border-color:#f97316;color:#fdba74;">${m.t} · ${m.s}</div><div>`;
+      prevSlot=m.t;
+    }
+    const dm={...m, t1:resolveKOLabel(m.t1), t2:resolveKOLabel(m.t2), g:'plate'};
+    h+=mrow(dm,true);
+  }
+  h+=`</div></div>`;
+  document.getElementById('plate-rr').innerHTML=h;
+
+  // Plate standings
+  const loseIds=['lrr1','lrr2','lrr3','lrr4','lrr5','lrr6'];
+  // Gather the 4 plate team names dynamically
+  const plateTeams=[
+    resolveKOLabel('Loser QF1'),
+    resolveKOLabel('Loser QF2'),
+    resolveKOLabel('Loser QF3'),
+    resolveKOLabel('Loser QF4'),
+  ];
+  const allResolved = plateTeams.every(t=>!t.startsWith('Loser'));
+  const std={};
+  for(const t of plateTeams) std[t]={p:0,w:0,l:0,d:0,pf:0,pa:0};
+
+  for(const m of LRR){
+    const sc=scores[m.id]; if(!sc) continue;
+    const t1=resolveKOLabel(m.t1), t2=resolveKOLabel(m.t2);
+    if(!std[t1]||!std[t2]) continue;
+    std[t1].p++; std[t2].p++;
+    std[t1].pf+=sc.s1; std[t1].pa+=sc.s2;
+    std[t2].pf+=sc.s2; std[t2].pa+=sc.s1;
+    if(sc.s1>sc.s2){std[t1].w++;std[t2].l++;}
+    else if(sc.s2>sc.s1){std[t2].w++;std[t1].l++;}
+    else{std[t1].d++;std[t2].d++;}
+  }
+
+  const rows=Object.entries(std).map(([n,v])=>({n,...v,pts:v.w*2+v.d,diff:v.pf-v.pa}))
+    .sort((a,b)=>b.pts-a.pts||b.diff-a.diff||b.pf-a.pf);
+
+  if(!allResolved){
+    document.getElementById('plate-std').innerHTML=`<div style="padding:16px;color:var(--muted);font-size:.83rem;background:var(--surface);border-radius:8px;border:1px solid var(--border);">⏳ Standings will appear once Quarter Final scores are entered and losers are known.</div>`;
+    return;
+  }
+
+  let sh=`<div class="card"><table class="std-table">
+    <thead><tr><th style="text-align:left">Team</th><th>P</th><th>W</th><th>L</th><th>PF</th><th>PA</th><th>Diff</th><th>Pts</th></tr></thead><tbody>`;
+  rows.forEach((r,i)=>{
+    const rk=i===0?'r1':i===1?'r2':i===2?'r3':'rn';
+    const dc=r.diff>0?'dp':r.diff<0?'dn':'';
+    const trophy=i===0?'🥉 ':'';
+    sh+=`<tr><td><span class="rnk ${rk}">${i+1}</span>${trophy}${r.n}</td><td>${r.p}</td><td>${r.w}</td><td>${r.l}</td><td>${r.pf}</td><td>${r.pa}</td><td class="${dc}">${r.diff>0?'+':''}${r.diff}</td><td class="pts">${r.pts}</td></tr>`;
+  });
+  sh+=`</tbody></table></div>`;
+  document.getElementById('plate-std').innerHTML=sh;
+}
+
+function renderGroups(){
+  let r='',b='';
+  RED.forEach((t,i) =>r+=`<div class="titem"><span class="sbdg sred">${i+1}</span>${t}</div>`);
+  BLUE.forEach((t,i)=>b+=`<div class="titem"><span class="sbdg sblue">${i+1}</span>${t}</div>`);
+  document.getElementById('redList').innerHTML=r;
+  document.getElementById('blueList').innerHTML=b;
+}
+
+function renderAll(){ renderSched(); renderScoreboard(); renderStd(); renderKO(); renderGroups(); renderPlate(); }
+
+// ── TAB ───────────────────────────────────────────────────────────────
+function goTab(id, el){
+  if(id==='setup' && !admin){
+    toast('Admin access required for Setup',true);
+    return;
+  }
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+  renderAll();
+}
+
+// ── SETUP ─────────────────────────────────────────────────────────────
+async function saveConfig(){
+  const url = document.getElementById('cfgUrl').value.trim();
+  const pw  = document.getElementById('cfgPw').value.trim();
+  const msg = document.getElementById('cfgMsg');
+
+  if(!url){
+    msg.innerHTML='<span style="color:var(--red)">Please enter your Firebase Database URL.</span>';
+    return;
+  }
+  if(!url.includes('firebaseio.com')){
+    msg.innerHTML='<span style="color:var(--red)">URL must look like: https://your-project-default-rtdb.firebaseio.com</span>';
+    return;
+  }
+  if(!pw){
+    msg.innerHTML='<span style="color:var(--red)">Please enter an admin password.</span>';
+    return;
+  }
+
+  msg.textContent='Connecting to Firebase…';
+
+  // Set DB globally so fbWrite uses it immediately
+  DB = url.replace(/\/$/, '');
+
+  try{
+    // 1. Test connection with a small write
+    await fbWrite('_test', 'ok');
+    await fbWrite('_test', null); // clean up
+
+    // 2. Save password hash to Firebase — this is the ONLY source of truth
+    const pwHash = hash(pw);
+    await fbWrite('pwHash', pwHash);
+
+    // 3. Show success + download button + manual fallback
+    const cleanUrl = url.replace(/\/$/, '');
+    msg.innerHTML=`
+      <div style="color:var(--green);font-weight:700;font-size:.9rem;margin-bottom:10px">✓ Firebase connected! Password saved to cloud.</div>
+      <div style="background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px;">
+        <div style="color:var(--gold);font-weight:700;margin-bottom:8px;">📥 Option A — Download ready-to-share file (recommended)</div>
+        <div style="color:var(--muted);font-size:.78rem;margin-bottom:10px;">Downloads a version with Firebase URL baked in. Upload it to static.run — all users connect automatically.</div>
+        <button onclick="downloadBakedFile('${cleanUrl}')"
+          style="background:var(--gold);color:var(--navy);border:none;border-radius:6px;padding:9px 18px;
+                 font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.88rem;cursor:pointer;">
+          📥 Download Badminator_SHARE.html
+        </button>
+      </div>
+      <div style="background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:14px;">
+        <div style="color:#93c5fd;font-weight:700;margin-bottom:8px;">✏️ Option B — Edit file manually (if download fails)</div>
+        <div style="color:var(--muted);font-size:.78rem;margin-bottom:8px;">Open this HTML file in Notepad. Find the line that says <code style="color:var(--red)">const FIREBASE_URL = '';</code> and replace it with:</div>
+        <input readonly onclick="this.select()" value="const FIREBASE_URL = '${cleanUrl}';"
+          style="width:100%;background:var(--navy);border:1px solid var(--border);border-radius:5px;
+                 color:var(--green);font-family:monospace;font-size:.78rem;padding:8px 10px;outline:none;cursor:text;"/>
+        <div style="color:var(--muted);font-size:.75rem;margin-top:6px;">👆 Click to select all, then copy and paste into the file. Save and re-upload.</div>
+      </div>`;
+
+    startPoll();
+
+  } catch(e){
+    DB = ''; // reset on failure
+    msg.innerHTML=`<span style="color:var(--red)">✗ ${e.message}<br><br>
+      <strong>Most common fix:</strong> When creating the Firebase database, make sure you selected
+      <strong>"Start in test mode"</strong> (not locked mode).</span>`;
+  }
+}
+
+function downloadBakedFile(firebaseUrl){
+  // Fetch the raw HTML source (avoids outerHTML mangling the script)
+  fetch(window.location.href)
+    .then(r => r.text())
+    .then(src => {
+      const baked = src.replace(
+        /const FIREBASE_URL\s*=\s*'[^']*';/,
+        `const FIREBASE_URL = '${firebaseUrl}';`
+      );
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([baked], {type:'text/html'}));
+      a.download = 'Badminator_SHARE.html';
+      a.click();
+      URL.revokeObjectURL(a.href);
+      toast('Downloaded ✓ — upload Badminator_SHARE.html to your host!');
+    })
+    .catch(()=>{
+      // Fallback: show manual instructions if fetch fails (e.g. opened as local file)
+      const msg = document.getElementById('cfgMsg');
+      msg.innerHTML = `
+        <span style="color:var(--gold);font-weight:700">📋 Manual step (file opened locally):</span><br>
+        Open this HTML file in Notepad/TextEdit, find this exact line:<br>
+        <code style="background:var(--navy);color:var(--red);padding:3px 8px;border-radius:4px;display:block;margin:6px 0;word-break:break-all;">const FIREBASE_URL = '';</code>
+        Change it to:<br>
+        <code style="background:var(--navy);color:var(--green);padding:3px 8px;border-radius:4px;display:block;margin:6px 0;word-break:break-all;">const FIREBASE_URL = '${firebaseUrl}';</code>
+        Save the file, then upload and share that updated file. All users will auto-connect. ✓`;
+    });
+}
+
+async function clearScores(){
+  if(!DB){ toast('Configure Firebase first',true); return; }
+  if(!confirm('Reset ALL scores? This cannot be undone.')) return;
+  try{
+    await fbWrite('scores', null);
+    scores = {};
+    toast('All scores cleared ✓');
+    renderAll();
+  } catch(e){ toast('Error: '+e.message, true); }
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────
+function toast(msg, bad=false){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (bad?' bad':'');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────
+(function init(){
+  if(DB){
+    // Firebase URL is baked in — connect straight away, no setup needed
+    document.getElementById('cfgUrl').value = DB;
+    setSyncLabel('warn','Connecting…');
+    startPoll();
+  } else {
+    setSyncLabel('warn','Open Setup tab to configure Firebase');
+    renderAll();
+  }
+})();
+</script>
+</body>
+</html>
